@@ -1,0 +1,185 @@
+{
+  "version": 8,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 28,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "EXECORE_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "dev-clang",
+      "inherits": "base",
+      "displayName": "Clang 19+ Development (Debug)",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_WARNINGS_AS_ERRORS": "ON"
+      }
+    },
+    {
+      "name": "dev-gcc",
+      "inherits": "base",
+      "displayName": "GCC 15+ Development (Debug)",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "release-pgo",
+      "inherits": "base",
+      "displayName": "Release with PGO & ThinLTO",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_ENABLE_THINLTO": "ON",
+        "EXECORE_ENABLE_HARDENING": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "asan-ubsan",
+      "inherits": "base",
+      "displayName": "AddressSanitizer + UndefinedBehaviorSanitizer",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_ENABLE_ASAN": "ON",
+        "EXECORE_ENABLE_UBSAN": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "tsan",
+      "inherits": "base",
+      "displayName": "ThreadSanitizer",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_ENABLE_TSAN": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "msan",
+      "inherits": "base",
+      "displayName": "MemorySanitizer",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_ENABLE_MSAN": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "fuzz",
+      "inherits": "base",
+      "displayName": "LibFuzzer Targets",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_BUILD_FUZZERS": "ON",
+        "EXECORE_ENABLE_ASAN": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    },
+    {
+      "name": "bench",
+      "inherits": "base",
+      "displayName": "Google Benchmark Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang",
+        "EXECORE_BUILD_BENCHMARKS": "ON",
+        "EXECORE_WARNINGS_AS_ERRORS": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev-clang"
+    },
+    {
+      "name": "dev-clang",
+      "configurePreset": "dev-clang"
+    },
+    {
+      "name": "dev-gcc",
+      "configurePreset": "dev-gcc"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release-pgo"
+    },
+    {
+      "name": "release-pgo",
+      "configurePreset": "release-pgo"
+    },
+    {
+      "name": "asan-ubsan",
+      "configurePreset": "asan-ubsan"
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan"
+    },
+    {
+      "name": "msan",
+      "configurePreset": "msan"
+    },
+    {
+      "name": "fuzz",
+      "configurePreset": "fuzz"
+    },
+    {
+      "name": "bench",
+      "configurePreset": "bench"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-all",
+      "configurePreset": "dev-clang",
+      "execution": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "test-asan",
+      "configurePreset": "asan-ubsan",
+      "execution": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "test-tsan",
+      "configurePreset": "tsan",
+      "execution": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# Execore Basics: Lists and sequence methods
+list numbers
+
+numbers.append(10)
+numbers.append(20)
+numbers.append(30)
+numbers.append(40)
+
+print "Initial list:", numbers
+print "List length:", numbers.len()
+
+# Insert element at index 1
+numbers.insert(1, 15)
+print "After insert:", numbers
+
+# Slice list
+list sub = numbers[1:4]
+print "Sublist [1:4]:", sub
+
+# Iterate through list
+print "Elements in list:"
+for x in numbers
+    print "->", x
+
+# Remove element
+int removed = numbers.remove(0)
+print "Removed element:", removed
+print "Final list:", numbers

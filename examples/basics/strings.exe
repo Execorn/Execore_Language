@@ -1,0 +1,17 @@
+# Execore Basics: String operations and builtins
+str message = "Hello, Execore!"
+
+print "Original:", message
+print "Length:", message.len()
+print "Slice [0:5]:", message[0:5]
+print "Slice [7:14]:", message[7:14]
+
+# Repetition
+str stars = "*" * 20
+print stars
+
+# Character builtins
+char ch = 'A'
+int ascii_val = ord(ch)
+str back_to_char = chr(ascii_val + 1)
+print "Char:", ch, "ASCII:", ascii_val, "Next char:", back_to_char

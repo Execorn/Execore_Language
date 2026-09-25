@@ -1,0 +1,14 @@
+# Execore Algorithm: Fibonacci numbers
+def fibonacci(limit)
+    int a = 0
+    int b = 1
+    int count = 0
+    while count < limit
+        print a
+        int temp = a + b
+        a = b
+        b = temp
+        count += 1
+
+print "First 8 Fibonacci numbers:"
+fibonacci(8)

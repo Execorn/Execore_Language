@@ -1,0 +1,23 @@
+# Execore Basics: Control flow (if, while, do..while, for)
+int val = 15
+
+if val > 10
+    print "Value is greater than 10"
+else
+    print "Value is 10 or less"
+
+# While loop with break/continue
+print "Counting even numbers up to 10:"
+int i = 0
+while i < 10
+    i += 1
+    if i % 2 != 0
+        continue
+    print "Even:", i
+
+# Do..While loop
+int counter = 0
+do
+    counter += 1
+while counter < 3
+print "Counter after do-while:", counter
