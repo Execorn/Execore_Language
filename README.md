@@ -176,7 +176,7 @@ Source files reference internal headers via `#include "src/..."`. Compiling dire
 
 ```bash
 # Setup include link and compile
-mkdir -p /tmp/execore_inc && ln -sf $(pwd) /tmp/execore_inc/src
+mkdir -p /tmp/execore_inc && ln -sfn "$(pwd)" /tmp/execore_inc/src
 
 gcc -std=gnu99 -fpermissive -Wno-incompatible-pointer-types \
     -I/tmp/execore_inc -I. \
