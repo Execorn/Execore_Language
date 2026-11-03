@@ -69,15 +69,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential \
-            clang \
+            clang-19 \
+            lld-19 \
+            llvm-19 \
             g++-14 \
             gcc-14 \
             libstdc++-14-dev \
-            lld \
-            llvm \
             cmake \
             ninja-build
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100 \
+            --slave /usr/bin/clang++ clang++ /usr/bin/clang++-19 \
+            --slave /usr/bin/lld lld /usr/bin/lld-19 \
+            --slave /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-19
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
+            --slave /usr/bin/g++ g++ /usr/bin/g++-14
 
       - name: Configure CMake preset (${{ matrix.preset }})
         run: cmake --preset ${{ matrix.preset }}
