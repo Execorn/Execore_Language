@@ -1,0 +1,94 @@
+# SPDX-License-Identifier: MIT
+
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+  pull_request:
+    branches: [ main, master ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  matrix-build:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Clang Dev Build & Test
+            preset: dev-clang
+            build_preset: dev-clang
+            test_cmd: ctest --preset test-all
+            extra_env: {}
+          - name: GCC Dev Build & Test
+            preset: dev-gcc
+            build_preset: dev-gcc
+            test_cmd: ctest --test-dir build/dev-gcc --output-on-failure
+            extra_env: {}
+          - name: ASan & UBSan Sanitizers
+            preset: asan-ubsan
+            build_preset: asan-ubsan
+            test_cmd: ctest --preset test-asan
+            extra_env:
+              ASAN_OPTIONS: "detect_leaks=0:halt_on_error=1"
+              UBSAN_OPTIONS: "print_stacktrace=1:halt_on_error=1"
+          - name: ThreadSanitizer (TSan)
+            preset: tsan
+            build_preset: tsan
+            test_cmd: ctest --preset test-tsan
+            extra_env:
+              TSAN_OPTIONS: "halt_on_error=1"
+          - name: Release & Hardening Build
+            preset: release-pgo
+            build_preset: release-pgo
+            test_cmd: ctest --test-dir build/release-pgo --output-on-failure
+            extra_env: {}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            clang \
+            g++ \
+            gcc \
+            lld \
+            llvm \
+            cmake \
+            ninja-build
+
+      - name: Configure CMake preset (${{ matrix.preset }})
+        run: cmake --preset ${{ matrix.preset }}
+
+      - name: Build preset (${{ matrix.build_preset }})
+        run: cmake --build --preset ${{ matrix.build_preset }}
+
+      - name: Run test suite
+        env: ${{ matrix.extra_env }}
+        run: ${{ matrix.test_cmd }}
+
+      - name: Smoke test example programs
+        run: |
+          ./build/${{ matrix.preset }}/execore examples/algorithms/factorial.exe
+          ./build/${{ matrix.preset }}/execore examples/algorithms/fibonacci.exe
+          ./build/${{ matrix.preset }}/execore examples/basics/strings.exe

@@ -40,15 +40,31 @@ add_executable(test_fuzz_regression fuzz/fuzz_parser.cpp fuzz/fuzz_standalone_ru
 target_link_libraries(test_fuzz_regression PRIVATE Execore::core)
 add_test(NAME FuzzRegressionTest COMMAND test_fuzz_regression)
 
+# Retain assertion evaluation across all build configurations (including Release)
+set(EXECORE_ALL_TEST_TARGETS
+    test_lexer
+    test_parser
+    test_value
+    test_interpreter
+    test_arena
+    test_pmr_and_monadic
+    test_bdd_scenarios
+    test_properties
+    test_fuzz_regression
+)
+foreach(test_tgt IN LISTS EXECORE_ALL_TEST_TARGETS)
+    target_compile_options(${test_tgt} PRIVATE -UNDEBUG)
+endforeach()
+
 # 5. Continuous LibFuzzer Targets (Clang only)
 if(EXECORE_BUILD_FUZZERS AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_executable(fuzz_lexer fuzz/fuzz_lexer.cpp)
     target_link_libraries(fuzz_lexer PRIVATE Execore::core)
-    target_compile_options(fuzz_lexer PRIVATE -fsanitize=fuzzer,address)
+    target_compile_options(fuzz_lexer PRIVATE -fsanitize=fuzzer,address -UNDEBUG)
     target_link_options(fuzz_lexer PRIVATE -fsanitize=fuzzer,address)
 
     add_executable(fuzz_parser fuzz/fuzz_parser.cpp)
     target_link_libraries(fuzz_parser PRIVATE Execore::core)
-    target_compile_options(fuzz_parser PRIVATE -fsanitize=fuzzer,address)
+    target_compile_options(fuzz_parser PRIVATE -fsanitize=fuzzer,address -UNDEBUG)
     target_link_options(fuzz_parser PRIVATE -fsanitize=fuzzer,address)
 endif()

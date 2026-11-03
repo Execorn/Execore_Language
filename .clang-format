@@ -33,7 +33,6 @@ BreakInheritanceList: BeforeColon
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracketedLists: true
 DerivePointerAlignment: false
 FixNamespaceComments: true
 IncludeBlocks: Regroup

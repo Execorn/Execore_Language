@@ -2,9 +2,9 @@
 
 [![ISO C++23](https://img.shields.io/badge/standard-ISO%20C%2B%2B23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![CMake 3.28+](https://img.shields.io/badge/CMake-3.28%2B-064F8C?logo=cmake)](https://cmake.org)
-[![Tests Passing](https://img.shields.io/badge/tests-100%25%20passing-brightgreen.svg)]()
-[![Sanitizers Clean](https://img.shields.io/badge/sanitizers-ASan%20%7C%20UBSan%20%7C%20TSan-success.svg)]()
-[![Compliance](https://img.shields.io/badge/Frontier%20Tier-50%2F50-gold.svg)](docs/audit_scorecard.md)
+[![CI](https://github.com/Execorn/Execore_Language/actions/workflows/ci.yml/badge.svg)](https://github.com/Execorn/Execore_Language/actions/workflows/ci.yml)
+[![Sanitizers Clean](https://img.shields.io/badge/sanitizers-ASan%20%7C%20UBSan%20%7C%20TSan-success.svg)](https://github.com/Execorn/Execore_Language/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Execore is an interpreted programming language built in ISO C++23. It combines indentation-based block syntax with explicit static types (`int`, `float`, `char`, `str`, `list`), first-class lexical closures, and dynamic method dispatch.
 
@@ -227,7 +227,7 @@ dot -Tpng ast.dot -o ast.png
 * [Architecture Guide](docs/architecture.md): Internal compiler pipeline, memory layout, and runtime design.
 * [Formal Grammar](docs/grammar.md): EBNF specification for the Execore dialect.
 * [Architecture Decision Records (ADRs)](docs/adr/):
-  * [ADR 0001: Pitchfork Layout and CMakePresets v8](docs/adr/0001-pitchfork-layout-and-cmake-presets.md)
+  * [ADR 0001: Pitchfork Layout and CMakePresets v6](docs/adr/0001-pitchfork-layout-and-cmake-presets.md)
   * [ADR 0002: C++23 Monadic Error Handling](docs/adr/0002-cxx23-monadic-error-handling.md)
   * [ADR 0003: Arena Bump Allocator and PMR Resources](docs/adr/0003-arena-bump-allocator-and-pmr.md)
   * [ADR 0004: Data-Oriented Design and Token SoA](docs/adr/0004-data-oriented-design-token-soa.md)

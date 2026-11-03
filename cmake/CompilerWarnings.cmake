@@ -1,4 +1,6 @@
 # Compiler warning configuration for Execore
+option(EXECORE_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+
 function(execore_set_compiler_warnings target_name)
     set(MSVC_WARNINGS
         /W4
@@ -39,6 +41,15 @@ function(execore_set_compiler_warnings target_name)
         -Wnull-dereference
         -Wformat=2
     )
+
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+        list(APPEND CLANG_GCC_WARNINGS -Wno-interference-size)
+    endif()
+
+    if(EXECORE_WARNINGS_AS_ERRORS)
+        list(APPEND MSVC_WARNINGS /WX)
+        list(APPEND CLANG_GCC_WARNINGS -Werror)
+    endif()
 
     if(MSVC)
         target_compile_options(${target_name} PRIVATE ${MSVC_WARNINGS})

@@ -37,7 +37,7 @@ The Execore codebase has been transformed from a legacy C-style prototype into a
 | Item | Criterion | Verification Evidence | Score |
 | :--- | :--- | :--- | :---: |
 | 1.1 | **CMake & Standard Baseline** | Root `CMakeLists.txt` mandates `cmake_minimum_required(VERSION 3.28)`, enforces `cxx_std_23`, and contains a fatal guard preventing in-source builds (`CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR`). | **2 / 2** |
-| 1.2 | **CMakePresets v8 Hierarchy** | `CMakePresets.json` defines 8 specialized configure presets (`dev-clang`, `dev-gcc`, `release-pgo`, `asan-ubsan`, `tsan`, `msan`, `fuzz`, `bench`), matching build presets, and test presets. | **2 / 2** |
+| 1.2 | **CMakePresets v6 Hierarchy** | `CMakePresets.json` defines 8 specialized configure presets (`dev-clang`, `dev-gcc`, `release-pgo`, `asan-ubsan`, `tsan`, `msan`, `fuzz`, `bench`), matching build presets, and test presets. | **2 / 2** |
 | 1.3 | **Fast Linker Integration** | `cmake/Linker.cmake` auto-detects `mold` and `ld.lld`, configuring global `-fuse-ld` link options for all binaries, tests, and benchmarks. | **2 / 2** |
 | 1.4 | **Compiler Cache Acceleration** | Auto-detection of `sccache` and `ccache` in `CMakeLists.txt` setting `CMAKE_<LANG>_COMPILER_LAUNCHER`. | **1 / 1** |
 | 1.5 | **Pitchfork Repository Layout** | Clean separation of `include/execore/` (public headers), `src/` (implementation), `tests/`, `tools/`, `benchmarks/`, `docs/`, and `packaging/`. | **2 / 2** |

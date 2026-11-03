@@ -1,14 +1,15 @@
-#include "execore/frontend/source_manager.hpp"
-#include "execore/frontend/lexer.hpp"
-#include "execore/frontend/parser.hpp"
-#include "execore/semantics/symbol_table.hpp"
-#include "execore/semantics/semantic_analyzer.hpp"
-#include "execore/runtime/interpreter.hpp"
-#include "execore/utils/dot_exporter.hpp"
-#include "execore/diagnostics/diagnostic_engine.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "execore/diagnostics/diagnostic_engine.hpp"
+#include "execore/frontend/lexer.hpp"
+#include "execore/frontend/parser.hpp"
+#include "execore/frontend/source_manager.hpp"
+#include "execore/runtime/interpreter.hpp"
+#include "execore/semantics/semantic_analyzer.hpp"
+#include "execore/semantics/symbol_table.hpp"
+#include "execore/utils/dot_exporter.hpp"
 
 namespace {
 
@@ -22,7 +23,8 @@ void print_help(const char* prog_name) {
               << "  -t, --tab-size <N>     Configure indentation tab size (default: 4)\n"
               << "  --dump-ast             Dump textual representation of AST to stdout\n"
               << "  --emit-dot <file>      Export AST as a Graphviz DOT diagram to <file>\n"
-              << "  --check-only           Perform lexical, syntax, and semantic checks without executing\n"
+              << "  --check-only           Perform lexical, syntax, and semantic checks without "
+                 "executing\n"
               << "  --no-color             Disable colorized diagnostic messages\n\n"
               << "Examples:\n"
               << "  " << prog_name << " script.exe\n"
@@ -33,6 +35,20 @@ void print_help(const char* prog_name) {
 void print_version() {
     std::cout << "Execore Language Engine version 2.0.0 (ISO C++23 / Frontier C++2026)\n"
               << "Modernized Compiler Pipeline and Interpreted Runtime\n";
+}
+
+bool parse_tab_size_argument(const std::string& str, uint32_t& out) {
+    try {
+        size_t pos = 0;
+        unsigned long val = std::stoul(str, &pos);
+        if (pos != str.size() || val == 0 || val > 32) {
+            return false;
+        }
+        out = static_cast<uint32_t>(val);
+        return true;
+    } catch (...) {
+        return false;
+    }
 }
 
 } // namespace
@@ -75,9 +91,19 @@ int main(int argc, char* argv[]) {
                 std::cerr << "Error: " << arg << " requires a numeric tab size argument\n";
                 return 1;
             }
-            tab_size = static_cast<uint32_t>(std::stoul(argv[++i]));
+            std::string val_str = argv[++i];
+            if (!parse_tab_size_argument(val_str, tab_size)) {
+                std::cerr << "Error: invalid tab size argument '" << val_str
+                          << "' (expected positive integer <= 32)\n";
+                return 1;
+            }
         } else if (arg.rfind("-t", 0) == 0 && arg.size() > 2) {
-            tab_size = static_cast<uint32_t>(std::stoul(arg.substr(2)));
+            std::string val_str = arg.substr(2);
+            if (!parse_tab_size_argument(val_str, tab_size)) {
+                std::cerr << "Error: invalid tab size argument '" << val_str
+                          << "' (expected positive integer <= 32)\n";
+                return 1;
+            }
         } else if (arg.rfind("-D", 0) == 0) {
             // Backward-compatible flag handling: -D4 or -D8 dumped DOT
             if (arg == "-D4" || arg == "-D8") {

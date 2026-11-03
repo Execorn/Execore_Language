@@ -1,4 +1,4 @@
-# ADR 0001: Pitchfork Layout and CMakePresets v8 Migration
+# ADR 0001: Pitchfork Layout and CMakePresets v6 Migration
 
 * **Status:** Accepted
 * **Deciders:** Execore Engineering Team
@@ -15,11 +15,11 @@ The legacy codebase maintained a flat C-style root directory mixing headers, sou
 
 ## Considered Options
 1. Retain flat directory with manual flags in bash scripts.
-2. Pitchfork layout (`include/`, `src/`, `tests/`, `tools/`, `benchmarks/`, `docs/`, `packaging/`) with modern `CMakePresets.json` v8.
+2. Pitchfork layout (`include/`, `src/`, `tests/`, `tools/`, `benchmarks/`, `docs/`, `packaging/`) with modern `CMakePresets.json` v6.
 3. Meson or Bazel migration.
 
 ## Decision Outcome
-Chosen option: **Option 2 (Pitchfork Layout with CMakePresets v8)**.
+Chosen option: **Option 2 (Pitchfork Layout with CMakePresets v6)**.
 
 ### Positive Consequences
 * Clear separation of public API headers (`include/execore/`) and private implementations (`src/`).
