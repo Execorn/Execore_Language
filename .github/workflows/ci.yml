@@ -77,12 +77,20 @@ jobs:
             libstdc++-14-dev \
             cmake \
             ninja-build
-          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100
-          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-19 100
-          sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-19 100
-          sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-19 100
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
+          sudo ln -sf /usr/bin/clang-19 /usr/bin/clang
+          sudo ln -sf /usr/bin/clang++-19 /usr/bin/clang++
+          sudo ln -sf /usr/bin/lld-19 /usr/bin/lld
+          sudo ln -sf /usr/bin/ld.lld-19 /usr/bin/ld.lld
+          sudo ln -sf /usr/bin/clang-19 /usr/local/bin/clang
+          sudo ln -sf /usr/bin/clang++-19 /usr/local/bin/clang++
+          sudo ln -sf /usr/bin/lld-19 /usr/local/bin/lld
+          sudo ln -sf /usr/bin/ld.lld-19 /usr/local/bin/ld.lld
+          sudo ln -sf /usr/bin/gcc-14 /usr/bin/gcc
+          sudo ln -sf /usr/bin/g++-14 /usr/bin/g++
+          sudo ln -sf /usr/bin/gcc-14 /usr/local/bin/gcc
+          sudo ln -sf /usr/bin/g++-14 /usr/local/bin/g++
+          clang++ --version
+          g++ --version
 
       - name: Configure CMake preset (${{ matrix.preset }})
         run: cmake --preset ${{ matrix.preset }}
