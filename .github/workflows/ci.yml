@@ -70,12 +70,14 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             build-essential \
             clang \
-            g++ \
-            gcc \
+            g++-14 \
+            gcc-14 \
+            libstdc++-14-dev \
             lld \
             llvm \
             cmake \
             ninja-build
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
 
       - name: Configure CMake preset (${{ matrix.preset }})
         run: cmake --preset ${{ matrix.preset }}
