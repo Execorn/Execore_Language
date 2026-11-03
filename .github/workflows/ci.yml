@@ -71,6 +71,7 @@ jobs:
             build-essential \
             clang-19 \
             clang-tools-19 \
+            libclang-rt-19-dev \
             lld-19 \
             llvm-19 \
             g++-14 \
